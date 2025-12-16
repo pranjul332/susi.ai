@@ -260,21 +260,30 @@ function enableBot() {
           main(data, thisMsgNumber);
         })
         .catch((e) => {
-          console.log(e);
-          main(null, thisMsgNumber);
+          console.error('SUSI API error:', e);
+          createSusiMessageAnswer(
+            'Sorry, SUSI is currently unavailable.',
+            thisMsgNumber,
+          );
         });
     }
 
     // Main function
     function main(data, thisMsgNumber) {
-      if (!data || !data.answers || data.answers.length === 0) {
-        createSusiMessageAnswer(
-          'Sorry, I could not understand what you just said.',
-          thisMsgNumber,
-        );
+      if (data?.answer?.text) {
+        createSusiMessageAnswer(data.answer.text, thisMsgNumber);
         return;
       }
-      const actions = data.answers[0].actions;
+
+      if (!data || !data.answers || data.answers.length === 0) {
+                    createSusiMessageAnswer(
+                      'Sorry, I could not understand what you just said.',
+                      thisMsgNumber,
+                    );
+                    return;
+                  }
+
+                  const actions = data.answers[0].actions;
 
       for (let actionIndex = 0; actionIndex < actions.length; actionIndex++) {
         let action = actions[actionIndex];
