@@ -285,7 +285,7 @@ function enableBot() {
 
                   const actions = data.answers[0].actions;
 
-      for (let actionIndex = 0; actionIndex < actions.length; actionIndex++) {
+      for ( let actionIndex = 0; actionIndex < actions.length; actionIndex++) {
         let action = actions[actionIndex];
         let type = action.type;
         let expression = '';
